@@ -13,7 +13,7 @@
 
 A full-stack application demonstrating enterprise architecture patterns, RESTful API design, and responsive UI development.
 
-[🚀 Quick Start](#-quick-start) • [📖 API Docs](#-api-documentation) • [🏗️ Architecture](#-architecture-diagram) • [✨ Features](#-key-features) • [📬 Contact](#-contact--support)
+[🚀 Quick Start](#-quick-start) • [📖 API Docs](#-api-documentation) • [🏗️ Architecture](#-Architecture-Diagram) • [✨ Features](#-key-features) • [📬 Contact](#-contact--support)
 
 </div>
 
