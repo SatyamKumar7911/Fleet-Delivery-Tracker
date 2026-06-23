@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![Fleet Delivery Tracker](https://img.shields.io/badge/Fleet%20Delivery%20Tracker-v1.0.0-blue?style=for-the-badge&logo=express)
-
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?style=flat-square&logo=express)](https://expressjs.com/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -21,69 +19,29 @@ A full-stack application demonstrating enterprise architecture patterns, RESTful
 
 ---
 
-## 📌 About This Project
-
-**Fleet Delivery Tracker** is a professional-grade delivery management system that showcases modern full-stack web development practices. Built with Node.js, Express.js, and vanilla JavaScript, it demonstrates:
-
-- **Clean Architecture** - Separation of concerns with distinct API, storage, and presentation layers
-- **RESTful Design** - 9 endpoints following HTTP standards with proper status codes
-- **Input Validation** - Comprehensive validation at the API level with descriptive error messages
-- **State Management** - Workflow-based status transitions with validation rules
-- **Responsive UI** - Mobile-first design supporting desktop, tablet, and mobile
-- **Real-time Updates** - Auto-refreshing dashboard with 5-second polling
-- **Performance** - In-memory data storage with sub-5ms response times
-
-### 🎯 Technical Highlights
-
-| Aspect | Implementation |
-|--------|-----------------|
-| **API Design** | RESTful endpoints with proper HTTP methods & status codes |
-| **Validation** | Field-level validation + business logic enforcement |
-| **State Patterns** | Finite state machine for delivery status workflows |
-| **Error Handling** | Comprehensive error messages & recovery strategies |
-| **Code Quality** | ES6+ syntax, DRY principles, well-commented functions |
-| **Scalability** | Database-agnostic architecture ready for scaling |
-
----
-
-
-
 ## 🔄 System Workflow
 
 <div align="center">
 
-```
-┌─────────────────────────────────────────────────────┐
-│              DELIVERY LIFECYCLE                     │
-└─────────────────────────────────────────────────────┘
+```mermaid
+stateDiagram-v2
+    direction TB
+    [*] --> CREATED : Delivery Created
+    CREATED --> OUT_FOR_DELIVERY : Move to Transit
+    OUT_FOR_DELIVERY --> DELIVERED : Mark Delivered
+    DELIVERED --> [*]
 
-     ┏━━━━━━━━━━━━━━┓
-     ┃   📦 CREATED   ┃
-     ┃  (Initial State) ┃
-     ┗━━━━━━━━━━━━━━┛
-            │
-            │ Move to Transit
-            ↓
-     ┏━━━━━━━━━━━━━━━━┓
-     ┃ 🚗 OUT_FOR_DELIVERY ┃
-     ┃    (In Transit)    ┃
-     ┗━━━━━━━━━━━━━━━━┛
-            │
-            │ Mark Delivered
-            ↓
-     ┏━━━━━━━━━━━━━━┓
-     ┃ ✅ DELIVERED   ┃
-     ┃  (Final State) ┃
-     ┗━━━━━━━━━━━━━━┛
+    CREATED : CREATED\n(Initial State)
+    OUT_FOR_DELIVERY : OUT_FOR_DELIVERY\n(In Transit)
+    DELIVERED : DELIVERED\n(Terminal State)
 ```
+</div>
 
 **Valid Status Transitions:**
-- `CREATED` → `OUT_FOR_DELIVERY` → `DELIVERED`
+-`CREATED` → `OUT_FOR_DELIVERY` → `DELIVERED`
 - Each transition is validated to prevent invalid state changes
 - No backward transitions allowed
 - No further transitions from DELIVERED state
-
-</div>
 
 ---
 
@@ -91,26 +49,27 @@ A full-stack application demonstrating enterprise architecture patterns, RESTful
 
 The Fleet Delivery Tracker dashboard provides an intuitive interface for delivery management:
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                  FLEET DELIVERY TRACKER                 │
-├─────────────────────────────────────────────────────────┤
-│ ┌──────────┬──────────┬──────────┬──────────────────┐   │
-│ │ TOTAL: 42│DELIVERED │ACTIVE: 8 │CREATED: 5       │   │
-│ │   📦     │  ✅ 29   │    🚗    │     🆕          │   │
-│ └──────────┴──────────┴──────────┴──────────────────┘   │
-│                                                          │
-│ [🆕 Create Delivery] [🔄 Load Sample] [📍 Filter...]   │
-│                                                          │
-│ Delivery List:                                           │
-│ ┌────┬──────┬─────────┬──────────────┬─────────────┐   │
-│ │ ID │ Vhcl │ Status  │   Location   │  Date       │   │
-│ ├────┼──────┼─────────┼──────────────┼─────────────┤   │
-│ │ #1 │VH001│ CREATED │ New York     │ 2026-05-12  │   │
-│ │ #2 │VH002│ OUT_FOR │ Los Angeles  │ 2026-05-13  │   │
-│ │ #3 │VH003│DELIVERED│ Chicago      │ 2026-05-10  │   │
-│ └────┴──────┴─────────┴──────────────┴─────────────┘   │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    Dashboard["Fleet Delivery Tracker Dashboard"]
+
+    Dashboard --> Cards["Summary Cards"]
+    Dashboard --> Controls["Action Controls"]
+    Dashboard --> List["Delivery List Table"]
+
+    Cards --> C1["Total Deliveries"]
+    Cards --> C2["Delivered Count"]
+    Cards --> C3["In-Transit / Active"]
+    Cards --> C4["Created / Pending"]
+    Cards --> C5["Delivery Rate %"]
+
+    Controls --> A1["Create Delivery Form"]
+    Controls --> A2["Load Sample Data"]
+    Controls --> A3["Filter by Location or Status"]
+
+    List --> L1["Sortable by Date or ID"]
+    List --> L2["Color-coded Status Badges"]
+    List --> L3["Update Status Action Button"]
 ```
 
 **Key Dashboard Components:**
@@ -127,52 +86,37 @@ The Fleet Delivery Tracker dashboard provides an intuitive interface for deliver
 
 <div align="center">
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│                   SYSTEM ARCHITECTURE                          │
-└────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    BROWSER["Web Browser\nUser Interface"]
 
+    BROWSER -->|"HTTP / JSON Requests"| FRONTEND
 
-                        🖥️ WEB BROWSER
-                       (User Interface)
-                             │
-                             │ HTTP/JSON Requests
-                             ↓
-         ┌───────────────────────────────────────┐
-         │        📱 FRONTEND LAYER              │
-         │    HTML5 | CSS3 | JavaScript          │
-         │  - Dashboard UI                       │
-         │  - Forms & Filters                    │
-         │  - Real-time Updates (5s refresh)    │
-         └───────────────────────────────────────┘
-                             │
-                             │ AJAX Requests
-                             │ (JSON Payloads)
-                             ↓
-         ┌───────────────────────────────────────┐
-         │      🔌 EXPRESS.JS API LAYER          │
-         │    RESTful Endpoints (9 routes)      │
-         │  - Create, Read, Update, Delete      │
-         │  - Validation & Business Logic       │
-         │  - Error Handling & Status Codes     │
-         └───────────────────────────────────────┘
-                             │
-                             │ CRUD Operations
-                             │ (JavaScript Objects)
-                             ↓
-         ┌───────────────────────────────────────┐
-         │   💾 IN-MEMORY STORAGE LAYER          │
-         │    Fast JavaScript Data Store        │
-         │  - Delivery Records                  │
-         │  - Real-time Data Access            │
-         │  - No Database Overhead             │
-         └───────────────────────────────────────┘
-                             │
-                             │ JSON Response
-                             ↓
-                        🖥️ WEB BROWSER
-                      (Updated Display)
+    subgraph FRONTEND ["Frontend Layer — HTML5 · CSS3 · JavaScript ES6+"]
+        F1["Dashboard UI"]
+        F2["Forms & Filters"]
+        F3["Real-time Polling — 5s refresh"]
+    end
+
+    FRONTEND -->|"AJAX Requests — JSON Payloads"| API
+
+    subgraph API ["Express.js API Layer — 9 RESTful Endpoints"]
+        A1["Routing & Controllers"]
+        A2["Input Validation & Business Logic"]
+        A3["Error Handling & HTTP Status Codes"]
+    end
+
+    API -->|"CRUD Operations"| STORAGE
+
+    subgraph STORAGE ["In-Memory Storage Layer"]
+        S1["Delivery Records Array"]
+        S2["Auto-increment ID Counter"]
+        S3["Status Constants & Transition Rules"]
+    end
+
+    STORAGE -->|"JSON Response"| BROWSER
 ```
+</div>
 
 ### Architecture Highlights
 - **Stateless API Design** - Each request is independent and self-contained
@@ -181,8 +125,6 @@ The Fleet Delivery Tracker dashboard provides an intuitive interface for deliver
 - **Scalable Structure** - Easy to replace in-memory storage with MongoDB, PostgreSQL, etc.
 - **Zero Coupling** - Components can be updated independently
 - **Fast Data Access** - In-memory operations (< 5ms response time)
-
-</div>
 
 ---
 
@@ -230,9 +172,9 @@ The Fleet Delivery Tracker dashboard provides an intuitive interface for deliver
 </tr>
 <tr>
 <td><b>Storage</b></td>
-<td>In-Memory Store</td>
-<td>N/A</td>
-<td>Fast data storage (no DB)</td>
+<td>H2 Database (In-Memory)</td>
+<td>H2</td>
+<td>In-memory database for fast, lightweight data storage</td>
 </tr>
 <tr>
 <td><b>API</b></td>
@@ -710,31 +652,13 @@ Optimized for all screen sizes with mobile-first approach:
 
 ---
 
-## 🚀 Project Structure & Organization
+## 📞 Contact & Support
 
-```
-Fleet-Delivery-Tracker/
-├── server.js              # Express server & API routes
-├── package.json           # Dependencies & scripts
-└── public/
-    ├── index.html         # Dashboard markup
-    ├── style.css          # Responsive styling
-    └── script.js          # Client-side logic
-```
-
-Clean separation between backend API and frontend presentation layer.
-
----
-
-## � Contact & Support
-
-**Developer:** Satyam Kumar
-
-- 📧 **Email:** [satyam.kumar1183@gmail.com](mailto:satyam.kumar1183@gmail.com)
-- 🌐 **GitHub:** [yourusername](https://github.com/yourusername)
-- 📁 **Repository:** [Fleet-Delivery-Tracker](https://github.com/yourusername/Fleet-Delivery-Tracker)
-
-Questions or feedback? Feel free to reach out!
+* **📧 Email:** satyam.kumar1183@gmail.com
+* **📖 Documentation:** https://github.com/SatyamKumar7911/Fleet-Delivery-Tracker#readme
+* **🐛 Bug Reports:** https://github.com/SatyamKumar7911/Fleet-Delivery-Tracker/issues
+* **⭐ GitHub Repository:** https://github.com/SatyamKumar7911/Fleet-Delivery-Tracker
+* **👤 Developer Profile:** https://github.com/SatyamKumar7911
 
 ---
 
