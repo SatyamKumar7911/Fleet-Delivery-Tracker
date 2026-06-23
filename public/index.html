@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Delivery Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🚚 Fleet Delivery Tracker</h1>
+                <p>Track your vehicle shipments in real-time</p>
+            </div>
+            <button class="btn-seed" onclick="loadSampleData()">Load Sample Data</button>
+        </header>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="card summary-card">
+                <div class="card-value" id="totalCount">0</div>
+                <div class="card-label">Total Deliveries</div>
+            </div>
+            <div class="card summary-card">
+                <div class="card-value" id="deliveredCount">0</div>
+                <div class="card-label">Delivered</div>
+            </div>
+            <div class="card summary-card">
+                <div class="card-value" id="outForCount">0</div>
+                <div class="card-label">Out for Delivery</div>
+            </div>
+            <div class="card summary-card">
+                <div class="card-value" id="createdCount">0</div>
+                <div class="card-label">Created (Pending)</div>
+            </div>
+            <div class="card summary-card rate">
+                <div class="card-value" id="deliveryRate">0%</div>
+                <div class="card-label">Delivery Rate</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Left Panel: Create & Filter -->
+            <div class="left-panel">
+                <!-- Create Delivery -->
+                <div class="card">
+                    <h2>📦 Create Delivery</h2>
+                    <form id="createForm" onsubmit="handleCreateDelivery(event)">
+                        <div class="form-group">
+                            <label for="vehicleId">Vehicle ID *</label>
+                            <input type="text" id="vehicleId" placeholder="e.g., VH001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location *</label>
+                            <input type="text" id="location" placeholder="e.g., New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDate">Delivery Date *</label>
+                            <input type="date" id="deliveryDate" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Delivery</button>
+                    </form>
+                </div>
+
+                <!-- Filters -->
+                <div class="card">
+                    <h2>🔍 Filters & View</h2>
+                    <div class="button-group">
+                        <button class="btn btn-outline" onclick="showAllDeliveries()">All Deliveries</button>
+                        <button class="btn btn-outline" onclick="showActiveDeliveries()">Active Only</button>
+                    </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="locationFilter">Filter by Location</label>
+                        <input type="text" id="locationFilter" placeholder="e.g., New York">
+                        <button class="btn btn-outline" onclick="filterByLocation()">Search</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="sortSelect">Sort By</label>
+                        <select id="sortSelect" onchange="handleSort()">
+                            <option value="date">Latest Date</option>
+                            <option value="id">ID</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Deliveries List -->
+            <div class="right-panel">
+                <div class="card">
+                    <h2>📋 Deliveries</h2>
+                    <div id="loading" class="loading">Loading deliveries...</div>
+                    <div id="messageBox" class="message-box" style="display:none;"></div>
+                    <div id="deliveriesList" class="deliveries-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Status Update -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Update Delivery Status</h2>
+            <div class="modal-body">
+                <p><strong>Delivery ID:</strong> <span id="modalDeliveryId"></span></p>
+                <p><strong>Current Status:</strong> <span id="modalCurrentStatus" class="status-badge"></span></p>
+                <p><strong>Vehicle:</strong> <span id="modalVehicleId"></span></p>
+                <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+                
+                <div style="margin-top: 20px;">
+                    <label><strong>New Status:</strong></label>
+                    <div id="statusOptions" class="status-options"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmStatusUpdate()">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
