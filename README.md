@@ -13,7 +13,7 @@
 
 A full-stack application demonstrating enterprise architecture patterns, RESTful API design, and responsive UI development.
 
-[🚀 Quick Start](#-quick-start) • [📖 API Docs](#-api-documentation) • [🏗️ Architecture](#-Architecture-Diagram) • [✨ Features](#-key-features) • [📬 Contact](#-contact--support)
+[🚀 Quick Start](#-quick-start) • [📖 API Docs](#-api-documentation) • [🏗️ Architecture](#architecture) • [✨ Features](#-key-features) • [📬 Contact](#-contact--support)
 
 </div>
 
@@ -81,6 +81,7 @@ graph TD
 - **Responsive Layout** - Auto-adapts to desktop, tablet, and mobile
 
 ---
+<a id="architecture"></a>
 
 ## 🏗️ Architecture Diagram
 
